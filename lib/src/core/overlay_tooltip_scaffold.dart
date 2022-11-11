@@ -9,6 +9,7 @@ import '../constants/extensions.dart';
 abstract class OverlayTooltipScaffoldImpl extends StatefulWidget {
   final TooltipController controller;
   final Future<bool> Function(int instantiatedWidgetLength)? startWhen;
+  final Function? onOverlayTap;
   final Widget Function(BuildContext context) builder;
   final Color overlayColor;
   final Duration tooltipAnimationDuration;
@@ -19,6 +20,7 @@ abstract class OverlayTooltipScaffoldImpl extends StatefulWidget {
     required this.controller,
     required this.builder,
     required this.overlayColor,
+    this.onOverlayTap,
     required this.startWhen,
     required this.tooltipAnimationDuration,
     required this.tooltipAnimationCurve,
@@ -54,7 +56,12 @@ class OverlayTooltipScaffoldImplState
               return snapshot.data == null ||
                       snapshot.data!.widgetKey.globalPaintBounds == null
                   ? SizedBox.shrink()
-                  : Positioned.fill(
+                  : InkWell(
+                    onTap: () {
+                      if(widget.onOverlayTap != null)
+                      widget.onOverlayTap();
+                    },
+                    child: Positioned.fill(
                       child: Container(
                         color: widget.overlayColor,
                         child: TweenAnimationBuilder(
@@ -76,7 +83,7 @@ class OverlayTooltipScaffoldImplState
                           ),
                         ),
                       ),
-                    );
+                    ),);
             },
           )
         ],
