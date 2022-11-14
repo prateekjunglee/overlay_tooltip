@@ -56,34 +56,34 @@ class OverlayTooltipScaffoldImplState
               return snapshot.data == null ||
                       snapshot.data!.widgetKey.globalPaintBounds == null
                   ? SizedBox.shrink()
-                  : InkWell(
-                    onTap: () {
-                      if(widget.onOverlayTap != null)
-                      widget.onOverlayTap();
-                    },
-                    child: Positioned.fill(
-                      child: Container(
-                        color: widget.overlayColor,
-                        child: TweenAnimationBuilder(
-                          key: ValueKey(snapshot.data!.displayIndex),
-                          tween: Tween<double>(begin: 0, end: 1),
-                          duration: widget.tooltipAnimationDuration,
-                          curve: widget.tooltipAnimationCurve,
-                          builder: (_, double val, child) {
-                            val = min(val, 1);
-                            val = max(val, 0);
-                            return Opacity(
-                              opacity: val,
-                              child: child,
-                            );
-                          },
-                          child: _TooltipLayout(
-                            model: snapshot.data!,
-                            controller: widget.controller,
+                  : Positioned.fill(
+                      child: InkWell(
+                        onTap: () {
+                          widget.onOverlayTap?.call();
+                        },
+                        child: Container(
+                          color: widget.overlayColor,
+                          child: TweenAnimationBuilder(
+                            key: ValueKey(snapshot.data!.displayIndex),
+                            tween: Tween<double>(begin: 0, end: 1),
+                            duration: widget.tooltipAnimationDuration,
+                            curve: widget.tooltipAnimationCurve,
+                            builder: (_, double val, child) {
+                              val = min(val, 1);
+                              val = max(val, 0);
+                              return Opacity(
+                                opacity: val,
+                                child: child,
+                              );
+                            },
+                            child: _TooltipLayout(
+                              model: snapshot.data!,
+                              controller: widget.controller,
+                            ),
                           ),
                         ),
                       ),
-                    ),);
+                    );
             },
           )
         ],
