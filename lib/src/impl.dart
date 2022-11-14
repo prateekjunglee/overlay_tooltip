@@ -22,11 +22,14 @@ class OverlayTooltipScaffold extends OverlayTooltipScaffoldImpl {
 
   final Curve tooltipAnimationCurve;
 
+  final Function? onOverlayTap;
+
   OverlayTooltipScaffold({
     Key? key,
     required this.controller,
     required this.builder,
     this.overlayColor = Colors.black54,
+    this.onOverlayTap,
     this.startWhen,
     this.tooltipAnimationDuration = const Duration(milliseconds: 500),
     this.tooltipAnimationCurve = Curves.decelerate,
@@ -35,6 +38,7 @@ class OverlayTooltipScaffold extends OverlayTooltipScaffoldImpl {
             controller: controller,
             builder: builder,
             overlayColor: overlayColor,
+            onOverlayTap: onOverlayTap,
             startWhen: startWhen,
             tooltipAnimationDuration: tooltipAnimationDuration,
             tooltipAnimationCurve: tooltipAnimationCurve);
